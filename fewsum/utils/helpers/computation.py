@@ -3,12 +3,10 @@ import torch as T
 
 def comp_cov_cmass(log_probs, words, words_mask):
     """Computes cumulative probability mass that is assigned to `words`.
-
     Args:
         log_probs: [batch_size, seq_len, vocab_size]
         words: [batch_size, word_count]
         words_mask: [batch_size, word_count]
-
     Return:
         prob_cmass: [batch_size, seq_len]
     """
@@ -22,22 +20,19 @@ def comp_cov_cmass(log_probs, words, words_mask):
 
 def compute_pov_distr(tokens):
     """Computes a distribution over 3 points-of-view and one extra slot (other).
-
     Computation is based on pronouns, and the last class is assigned 100% of
     mass if no pronouns are present.
-
     Args:
-        tokens (list): list of text tokens. 
-
+        tokens (list): list of text tokens.
     Returns:
         distr (list): 4 class distribution.
     """
     POVS = [
-        {"I", "me", "myself", "my", "mine", "we", "us", "ourselves", "our",
-         "ours"},
-        {"you", "yourself", "your", "yours"},
-        {"he", "she", "it", "him", "her", "his", "hers", "its", "they", "them",
-         "their", "theirs"}
+        {"я", "мы", "моя", "мой", "мое", "моё", "мной", "нас", "нами", "нам",
+         "наше"},
+        {"ты", "вы", "тебя", "тебе", "вас", "вам", "твое", "твоё", "ваше", "тобой", "вами"},
+        {"он", "она", "оно", "его", "ее", "её", "ему", "ей", "им", "их", "ей",
+         "ими"}
     ]
     counts = [0, 0, 0, 0]
     for tok in tokens:
